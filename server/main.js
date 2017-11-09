@@ -14,6 +14,23 @@ Meteor.startup(function(){
   engLexicon.remove({});
   //利用Assets.getText讀取private資料夾下的純文字檔
   var lexiconList = Assets.getText("engLexicon_1000.csv");
+  lexiconList = lexiconList.split("\r\n");
+  for(index=0 ; index<lexiconList.length ; index++)
+  {
+    lexiconList[index] = lexiconList[index].split(",");
+  }
+
+  var colNames = lexiconList[0];
+  for(row=1 ; row<lexiconList.length ; row++)
+  {
+    var word = {};
+    for(col=0 ; col<lexiconList[row].length ; col++)
+    {
+      var colName = colNames[col];
+      word[colName] = lexiconList[row][col];
+    }
+    engLexicon.insert(word);
+  }
 });
 
 //所有大腦(伺服器)的功能都會在這裡定義
