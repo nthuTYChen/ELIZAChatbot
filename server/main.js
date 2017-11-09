@@ -6,9 +6,14 @@
 
 //把msgRecords的mongoDB資料庫連結到msgRecords這個伺服器端的Global Variable
 msgRecords = new Mongo.Collection("msgRecords"); //請勿變更此行
+var engLexicon = new Mongo.Collection("engLexicon");
 
 Meteor.startup(function(){
   //所有在程式啟動時會在伺服器執行的程式碼都會放在這裡
+  //移除所有舊的字彙資料庫
+  engLexicon.remove({});
+  //利用Assets.getText讀取private資料夾下的純文字檔
+  var lexiconList = Assets.getText("engLexicon_1000.csv");
 });
 
 //所有大腦(伺服器)的功能都會在這裡定義
