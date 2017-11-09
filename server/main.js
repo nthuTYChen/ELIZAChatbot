@@ -1,7 +1,7 @@
 /*
-    ELIZA Meteor Template Created by CHEN, Tsung-Ying
+    ELIZA Chatbot Course Materials Created by CHEN, Tsung-Ying
     for the NTHU course "Basic Web Linguistic Application Development"
-    Last Updated on Nov 1, 2017
+    Last Updated on Nov 9, 2017
 */
 
 //把msgRecords的mongoDB資料庫連結到msgRecords這個伺服器端的Global Variable
@@ -14,21 +14,31 @@ Meteor.startup(function(){
   engLexicon.remove({});
   //利用Assets.getText讀取private資料夾下的純文字檔
   var lexiconList = Assets.getText("engLexicon_1000.csv");
+  //將用\r\n這兩個字元在split()功能裡將lexiconList以行為單位轉換為陣列
+  //\r\n合起來是Windows裡所使用的換行字元
+  //MacOS則是使用\n，所以請依照你的電腦系統的不同來使用不同的換行字元
   lexiconList = lexiconList.split("\r\n");
+  //利用for迴圈，再把每一行在split()功能中以逗號為分隔單位轉換為陣列(成為個別的欄位)
   for(index=0 ; index<lexiconList.length ; index++)
   {
     lexiconList[index] = lexiconList[index].split(",");
   }
-
+  //把lexiconList的第一行儲存為欄位名稱陣列colNames
   var colNames = lexiconList[0];
+  //從第二行開始處理lexiconList中每行的英語字彙資訊
   for(row=1 ; row<lexiconList.length ; row++)
   {
+    //每處理一行新的資訊的時候，就建立一個新的空物件變數word以便儲存各個欄位資料
     var word = {};
+    //處理一行中每一個欄位的資料
     for(col=0 ; col<lexiconList[row].length ; col++)
     {
+      //根據欄位col從欄位名稱陣列colNames中取得該欄的名稱，儲存至colName變數裡
       var colName = colNames[col];
+      //將word物件變數中的colName特性定義為目前行數的欄位內容
       word[colName] = lexiconList[row][col];
     }
+    //每行資訊整理成為word物件變數後，將此變數插入至engLexicon資料庫中。
     engLexicon.insert(word);
   }
 });
@@ -68,6 +78,9 @@ var processMsg = function(msg) {  //請勿變更此行
   var processResults = "";  //請勿變更此行
 
   //「以下」是你可以編輯的部份，請將你的ELIZA處理訊息的核心程式碼放在以下的段落內
+
+  //呼叫ELIZAWordSearch.js中的wordSearch功能，把收到的訊息msg跟engLexicon傳過去
+  //再把wordSearch回傳的結果儲存至processResults
   processResults = wordSearch(msg, engLexicon);
 
   //這邊在判斷processResults是空字串的時候會放進一個預設的訊息
