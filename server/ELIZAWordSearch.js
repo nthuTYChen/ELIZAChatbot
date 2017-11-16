@@ -40,8 +40,11 @@ wordSearch = function(msg, engLexicon) {
       //利用for迴圈取出前10筆資料
       for(index=0 ; index<10 ; index++)
       {
+        var randomNum = Math.random();
+        randomNum = randomNum*allMatches.length;
+        randomNum = Math.floor(randomNum);
         //把每一筆字的資料的拼字Word取出，累加到wordSearchResult
-        wordSearchResult = wordSearchResult+allMatches[index].Word+", ";
+        wordSearchResult = wordSearchResult+allMatches[randomNum].Word+", ";
       }
       //最後在wordSearchResult前加上There you go:的訊息
       wordSearchResult = "There you go: "+wordSearchResult;
