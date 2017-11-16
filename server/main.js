@@ -1,7 +1,7 @@
 /*
     ELIZA Chatbot Course Materials Created by CHEN, Tsung-Ying
     for the NTHU course "Basic Web Linguistic Application Development"
-    Last Updated on Nov 9, 2017
+    Last Updated on Nov 16, 2017
 */
 
 //把msgRecords的mongoDB資料庫連結到msgRecords這個伺服器端的Global Variable
@@ -81,16 +81,23 @@ var processMsg = function(msg) {  //請勿變更此行
 
   //呼叫ELIZAWordSearch.js中的wordSearch功能，把收到的訊息msg跟engLexicon傳過去
   //再把wordSearch回傳的結果儲存至processResults
+
+  //先呼叫ELIZASocialSkill裡的的socialResponse功能處理msg訊息看是否是打招呼或說再見
   processResults = socialResponse(msg);
 
+  //socialResponse沒有回傳結果的話processResults為空白字串
   if(processResults === "")
   {
+    //呼叫ELIZAWordSearch.js中的wordSearch功能，把收到的訊息msg跟engLexicon傳過去
+    //再把wordSearch回傳的結果儲存至processResults
     processResults = wordSearch(msg, engLexicon);
   }
-  //呼叫ELIZAPOSSearch.js中的posSearch功能，把收到的訊息msg跟engLexicon傳過去
-  //再把posSearch回傳的結果儲存至processResults
+
+  //wordSearch沒有回傳結果的話processResults為空白字串
   if(processResults === "")
   {
+    //呼叫ELIZAPOSSearch.js中的posSearch功能，把收到的訊息msg跟engLexicon傳過去
+    //再把posSearch回傳的結果儲存至processResults
     processResults = posSearch(msg, engLexicon);
   }
 
