@@ -82,7 +82,12 @@ var processMsg = function(msg) {  //請勿變更此行
   //呼叫ELIZAWordSearch.js中的wordSearch功能，把收到的訊息msg跟engLexicon傳過去
   //再把wordSearch回傳的結果儲存至processResults
   processResults = wordSearch(msg, engLexicon);
-  processResults = posSearch(msg, engLexicon);
+  //呼叫ELIZAPOSSearch.js中的posSearch功能，把收到的訊息msg跟engLexicon傳過去
+  //再把posSearch回傳的結果儲存至processResults
+  if(processResults === "")
+  {
+    processResults = posSearch(msg, engLexicon);
+  }
 
   //這邊在判斷processResults是空字串的時候會放進一個預設的訊息
   if(processResults === "")
