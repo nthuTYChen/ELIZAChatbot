@@ -1,7 +1,7 @@
 /*
     ELIZA Chatbot Course Materials Created by CHEN, Tsung-Ying
     for the NTHU course "Basic Web Linguistic Application Development"
-    Last Updated on Nov 16, 2017
+    Last Updated on Nov 23, 2017
 */
 
 //把msgRecords的mongoDB資料庫連結到msgRecords這個伺服器端的Global Variable
@@ -14,13 +14,17 @@ Meteor.startup(function(){
   engLexicon.remove({});
   //利用Assets.getText讀取private資料夾下的純文字檔
   var lexiconList = Assets.getText("engLexicon_1000.csv");
-  //將用\r\n這兩個字元在split()功能裡將lexiconList以行為單位轉換為陣列
   //\r\n合起來是Windows裡所使用的換行字元
   //MacOS則是使用\n，所以請依照你的電腦系統的不同來使用不同的換行字元
+  //為了去除系統之前換行字元的差異，在此增加一段程式碼解決這個問題。
+  //先檢查讀進來的字串是不是用\r\n換行
   if(lexiconList.indexOf("\r\n") > -1)
   {
+    //如果是用\r\n換行，把所有的\r\n用replace的功能換成\n
     lexiconList.replace(/\r\n/g, "\n");
   }
+  //最後一律在split功能裡使用\n，以行為單位切割為陣列。這樣不論是\r\n還是\n做為換行
+  //都不會有差異了。
   lexiconList = lexiconList.split("\n");
   //利用for迴圈，再把每一行在split()功能中以逗號為分隔單位轉換為陣列(成為個別的欄位)
   for(index=0 ; index<lexiconList.length ; index++)
@@ -80,36 +84,44 @@ Meteor.methods({
 var processMsg = function(msg) {  //請勿變更此行
   //建立一個processResults變數儲存訊息運算處理的結果
   var processResults = "";  //請勿變更此行
+  //建立儲存情緒類別和每個字的詞類的變數
   var emotion = "", msgWordsPOS = [];
   //「以下」是你可以編輯的部份，請將你的ELIZA處理訊息的核心程式碼放在以下的段落內
 
-  //呼叫ELIZAWordSearch.js中的wordSearch功能，把收到的訊息msg跟engLexicon傳過去
-  //再把wordSearch回傳的結果儲存至processResults
-
+  //第一步：先把訊息msg傳送至ELIZAEmotionChecker.js檢查訊息的情緒。回傳的情緒類別
+  //存入emotion變數
   emotion = emotionChecker(msg);
+  
+  //第二步：把訊息跟英語詞彙資料庫傳送到ELIZAPOSIdentifier.js中的posIdentifier
+  //功能，查詢每個字的詞類。詞類陣列回傳後存入msgWordsPOS變數。
   msgWordsPOS = posIdentifier(msg, engLexicon);
-  //先呼叫ELIZASocialSkill裡的的socialResponse功能處理msg訊息看是否是打招呼或說再見
+  
+  //第三步：把訊息傳入ELIZASocialSkill.js裡的socialResponse功能是否是打招呼或說再見
+  //處理結果存入processResults
   processResults = socialResponse(msg);
 
-  //socialResponse沒有回傳結果的話processResults為空白字串
+  //第四步：processResults為空白字串代表還沒有適當回應
   if(processResults === "")
   {
-    //呼叫ELIZAWordSearch.js中的wordSearch功能，把收到的訊息msg跟engLexicon傳過去
-    //再把wordSearch回傳的結果儲存至processResults
+    //呼叫ELIZAWordSearch.js中的wordSearch功能，看是不是詢問字彙的問題，並且把收到
+    //的訊息msg跟engLexicon傳過去。wordSearch回傳的查詢結果儲存至processResults
     processResults = wordSearch(msg, engLexicon);
   }
 
-  //wordSearch沒有回傳結果的話processResults為空白字串
+  //第五步：processResults為空白字串代表還沒有適當回應
   if(processResults === "")
   {
-    //呼叫ELIZAPOSSearch.js中的posSearch功能，把收到的訊息msg跟engLexicon傳過去
-    //再把posSearch回傳的結果儲存至processResults
+    //呼叫ELIZAPOSSearch.js中的posSearch功能，看是不是詢問詞類的問題，並且把收到的
+    //訊息msg跟engLexicon傳過去。posSearch回傳的結果儲存至processResults
     processResults = posSearch(msg, engLexicon);
   }
 
-  //這邊在判斷processResults是空字串的時候會放進一個預設的訊息
+  //第五步：processResults為空白字串代表還沒有適當回應
   if(processResults === "")
   {
+    //呼叫ELIZAOtherResponses.js中的chooseRandomResponse，以獲得一個隨機的回應。
+    //傳入訊息msg、詞類查詢結果msgWordsPOS、情緒類別emotion、以及英語字彙資料庫
+    //engLexicon
     processResults = chooseRandomResponse(msg, msgWordsPOS, emotion, engLexicon);
   }
 
