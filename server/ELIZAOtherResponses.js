@@ -4,20 +4,37 @@
     Last Updated on Nov 16, 2017
 */
 
-var randomResponses = [
-  "Could you tell me more about it?",
-  "I'm afriad this is not a good idea.",
-  "Hmm. This very interesting.",
-  "Life is a box of chocolate, right?"
-];
+var randomResponses = {
+  neutral:
+    [
+      "Could you tell me more about it?",
+      "I'm afriad this is not a good idea.",
+      "Hmm. This very interesting.",
+      "Life is a box of chocolate, right?"
+    ],
+  emotional:
+    ["You need to calm down a little bit.",
+     "I like it a lot."
+    ],
+  suspicious:
+    ["I'm not interested in this question.",
+     "This is a very good question.",
+     "I can feel your uncertainty.",
+     "挖恩災~"
+    ]
+};
 
-chooseRandomResponse = function() {
+
+
+chooseRandomResponse = function(emotion) {
   var finalChoice = "";
-  var numOfChoices = randomResponses.length;
+  var emotionResponses = randomResponses[emotion];
+
+  var numOfChoices = emotionResponses.length;
   var randomNum = Math.random();
   randomNum = randomNum*numOfChoices;
   randomNum = Math.floor(randomNum);
-  finalChoice = randomResponses[randomNum];
+  finalChoice = emotionResponses[randomNum];
 
   return finalChoice;
 };

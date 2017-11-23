@@ -109,7 +109,7 @@ var processMsg = function(msg) {  //請勿變更此行
   //這邊在判斷processResults是空字串的時候會放進一個預設的訊息
   if(processResults === "")
   {
-    processResults = chooseRandomResponse();
+    processResults = chooseRandomResponse(emotion);
   }
 
   //「以上」是你可以編輯的部份，請將你的ELIZA處理訊息的核心程式碼放在以上的段落內
