@@ -80,13 +80,14 @@ Meteor.methods({
 var processMsg = function(msg) {  //請勿變更此行
   //建立一個processResults變數儲存訊息運算處理的結果
   var processResults = "";  //請勿變更此行
-  var emotion = "";
+  var emotion = "", msgWordsPOS = [];
   //「以下」是你可以編輯的部份，請將你的ELIZA處理訊息的核心程式碼放在以下的段落內
 
   //呼叫ELIZAWordSearch.js中的wordSearch功能，把收到的訊息msg跟engLexicon傳過去
   //再把wordSearch回傳的結果儲存至processResults
 
   emotion = emotionChecker(msg);
+  msgWordsPOS = posIdentifier(msg, engLexicon);
   //先呼叫ELIZASocialSkill裡的的socialResponse功能處理msg訊息看是否是打招呼或說再見
   processResults = socialResponse(msg);
 
@@ -109,7 +110,7 @@ var processMsg = function(msg) {  //請勿變更此行
   //這邊在判斷processResults是空字串的時候會放進一個預設的訊息
   if(processResults === "")
   {
-    processResults = chooseRandomResponse(emotion);
+    processResults = chooseRandomResponse(msg, msgWordsPOS, emotion, engLexicon);
   }
 
   //「以上」是你可以編輯的部份，請將你的ELIZA處理訊息的核心程式碼放在以上的段落內
