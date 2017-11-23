@@ -4,7 +4,7 @@
     Last Updated on Nov 16, 2017
 */
 
-/建立posSearch功能接收msg與engLexicon，從msg中抽取目標查詢字，並查詢該字的
+//建立posSearch功能接收msg與engLexicon，從msg中抽取目標查詢字，並查詢該字的
 //詞類(part of speech)
 posSearch = function(msg, engLexicon) {
   //設定posQ字串變數設定pos問題的關鍵字串

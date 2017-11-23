@@ -17,7 +17,11 @@ Meteor.startup(function(){
   //將用\r\n這兩個字元在split()功能裡將lexiconList以行為單位轉換為陣列
   //\r\n合起來是Windows裡所使用的換行字元
   //MacOS則是使用\n，所以請依照你的電腦系統的不同來使用不同的換行字元
-  lexiconList = lexiconList.split("\r\n");
+  if(lexiconList.indexOf("\r\n") > -1)
+  {
+    lexiconList.replace(/\r\n/g, "\n");
+  }
+  lexiconList = lexiconList.split("\n");
   //利用for迴圈，再把每一行在split()功能中以逗號為分隔單位轉換為陣列(成為個別的欄位)
   for(index=0 ; index<lexiconList.length ; index++)
   {
@@ -76,12 +80,13 @@ Meteor.methods({
 var processMsg = function(msg) {  //請勿變更此行
   //建立一個processResults變數儲存訊息運算處理的結果
   var processResults = "";  //請勿變更此行
-
+  var emotion = "";
   //「以下」是你可以編輯的部份，請將你的ELIZA處理訊息的核心程式碼放在以下的段落內
 
   //呼叫ELIZAWordSearch.js中的wordSearch功能，把收到的訊息msg跟engLexicon傳過去
   //再把wordSearch回傳的結果儲存至processResults
 
+  emotion = emotionChecker(msg);
   //先呼叫ELIZASocialSkill裡的的socialResponse功能處理msg訊息看是否是打招呼或說再見
   processResults = socialResponse(msg);
 
@@ -104,7 +109,7 @@ var processMsg = function(msg) {  //請勿變更此行
   //這邊在判斷processResults是空字串的時候會放進一個預設的訊息
   if(processResults === "")
   {
-    processResults = "Hello world!";
+    processResults = chooseRandomResponse();
   }
 
   //「以上」是你可以編輯的部份，請將你的ELIZA處理訊息的核心程式碼放在以上的段落內
