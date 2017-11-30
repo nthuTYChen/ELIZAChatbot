@@ -9,13 +9,16 @@ msgRecords = new Mongo.Collection("msgRecords"); //請勿變更此行
 var engLexicon = new Mongo.Collection("engLexicon");
 
 Meteor.startup(function(){
-  var str = "Microsoft microsoft microsoft";
+  var str1 = "Where were you yesterday?";
+  var str2 = "Where did you go yesterday?";
+  var str3 = "Did you go anywhere yesterday?";
 
-  var strKeyword = "microsoft";
-  var regexpKeyword = /microsoft/g;
+  var regexpKeyword = /(where)*(.*)you(.*)(where)*/i;
 
   //console.log("String: "+str.replace(strKeyword, "Ha ha"));
-  console.log("Regexp: "+str.match(regexpKeyword, "Ha ha"));
+  console.log("Str1: "+str1.match(regexpKeyword));
+  console.log("Str2: "+str2.match(regexpKeyword));
+  console.log("Str3: "+str3.match(regexpKeyword));
   //所有在程式啟動時會在伺服器執行的程式碼都會放在這裡
   //移除所有舊的字彙資料庫
   //engLexicon.remove({});
