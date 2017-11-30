@@ -9,11 +9,11 @@ msgRecords = new Mongo.Collection("msgRecords"); //請勿變更此行
 var engLexicon = new Mongo.Collection("engLexicon");
 
 Meteor.startup(function(){
-  var str1 = "Where were you yesterday?";
-  var str2 = "Where did you go yesterday?";
-  var str3 = "Did you go anywhere yesterday?";
+  var str1 = "What is the weather in Taipei tomorrow?";
+  var str2 = "Is the weather going to be bad in Taipei?";
+  var str3 = "I wonder what the temperature will be in Taipei tomorrow?";
 
-  var regexpKeyword = /(where)*(.*)you(.*)(where)*/i;
+  var regexpKeyword = /(temperature|weather).*in (\w+)/i;
 
   //console.log("String: "+str.replace(strKeyword, "Ha ha"));
   console.log("Str1: "+str1.match(regexpKeyword));
