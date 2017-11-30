@@ -9,46 +9,53 @@ msgRecords = new Mongo.Collection("msgRecords"); //請勿變更此行
 var engLexicon = new Mongo.Collection("engLexicon");
 
 Meteor.startup(function(){
+  var str = "Microsoft microsoft microsoft";
+
+  var strKeyword = "microsoft";
+  var regexpKeyword = /microsoft/g;
+
+  //console.log("String: "+str.replace(strKeyword, "Ha ha"));
+  console.log("Regexp: "+str.match(regexpKeyword, "Ha ha"));
   //所有在程式啟動時會在伺服器執行的程式碼都會放在這裡
   //移除所有舊的字彙資料庫
-  engLexicon.remove({});
+  //engLexicon.remove({});
   //利用Assets.getText讀取private資料夾下的純文字檔
-  var lexiconList = Assets.getText("engLexicon_1000.csv");
+  //var lexiconList = Assets.getText("engLexicon_1000.csv");
   //\r\n合起來是Windows裡所使用的換行字元
   //MacOS則是使用\n，所以請依照你的電腦系統的不同來使用不同的換行字元
   //為了去除系統之前換行字元的差異，在此增加一段程式碼解決這個問題。
   //先檢查讀進來的字串是不是用\r\n換行
-  if(lexiconList.indexOf("\r\n") > -1)
-  {
+  //if(lexiconList.indexOf("\r\n") > -1)
+  //{
     //如果是用\r\n換行，把所有的\r\n用replace的功能換成\n
-    lexiconList.replace(/\r\n/g, "\n");
-  }
+  //  lexiconList.replace(/\r\n/g, "\n");
+  //}
   //最後一律在split功能裡使用\n，以行為單位切割為陣列。這樣不論是\r\n還是\n做為換行
   //都不會有差異了。
-  lexiconList = lexiconList.split("\n");
+  //lexiconList = lexiconList.split("\n");
   //利用for迴圈，再把每一行在split()功能中以逗號為分隔單位轉換為陣列(成為個別的欄位)
-  for(index=0 ; index<lexiconList.length ; index++)
-  {
-    lexiconList[index] = lexiconList[index].split(",");
-  }
+  //for(index=0 ; index<lexiconList.length ; index++)
+  //{
+    //lexiconList[index] = lexiconList[index].split(",");
+  //}
   //把lexiconList的第一行儲存為欄位名稱陣列colNames
-  var colNames = lexiconList[0];
+  //var colNames = lexiconList[0];
   //從第二行開始處理lexiconList中每行的英語字彙資訊
-  for(row=1 ; row<lexiconList.length ; row++)
-  {
+  //for(row=1 ; row<lexiconList.length ; row++)
+  //{
     //每處理一行新的資訊的時候，就建立一個新的空物件變數word以便儲存各個欄位資料
-    var word = {};
+    //var word = {};
     //處理一行中每一個欄位的資料
-    for(col=0 ; col<lexiconList[row].length ; col++)
-    {
+    //for(col=0 ; col<lexiconList[row].length ; col++)
+    //{
       //根據欄位col從欄位名稱陣列colNames中取得該欄的名稱，儲存至colName變數裡
-      var colName = colNames[col];
+      //var colName = colNames[col];
       //將word物件變數中的colName特性定義為目前行數的欄位內容
-      word[colName] = lexiconList[row][col];
-    }
+      //word[colName] = lexiconList[row][col];
+    //}
     //每行資訊整理成為word物件變數後，將此變數插入至engLexicon資料庫中。
-    engLexicon.insert(word);
-  }
+    //engLexicon.insert(word);
+  //}
 });
 
 //所有大腦(伺服器)的功能都會在這裡定義
@@ -91,11 +98,11 @@ var processMsg = function(msg) {  //請勿變更此行
   //第一步：先把訊息msg傳送至ELIZAEmotionChecker.js檢查訊息的情緒。回傳的情緒類別
   //存入emotion變數
   emotion = emotionChecker(msg);
-  
+
   //第二步：把訊息跟英語詞彙資料庫傳送到ELIZAPOSIdentifier.js中的posIdentifier
   //功能，查詢每個字的詞類。詞類陣列回傳後存入msgWordsPOS變數。
   msgWordsPOS = posIdentifier(msg, engLexicon);
-  
+
   //第三步：把訊息傳入ELIZASocialSkill.js裡的socialResponse功能是否是打招呼或說再見
   //處理結果存入processResults
   processResults = socialResponse(msg);
