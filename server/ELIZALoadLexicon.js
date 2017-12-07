@@ -1,4 +1,4 @@
-loadEngLexicon = function() {
+loadEngLexicon = function(engLexicon) {
   //移除所有舊的字彙資料庫
   engLexicon.remove({});
   //利用Assets.getText讀取private資料夾下的純文字檔

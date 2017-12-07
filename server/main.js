@@ -9,18 +9,8 @@ msgRecords = new Mongo.Collection("msgRecords"); //請勿變更此行
 var engLexicon = new Mongo.Collection("engLexicon");
 
 Meteor.startup(function(){
-  var str1 = "What is the weather in Taipei tomorrow?";
-  var str2 = "Is the weather going to be bad in Taipei?";
-  var str3 = "I wonder what the temperature will be in Taipei tomorrow?";
-
-  var regexpKeyword = /(temperature|weather).*in (\w+)/i;
-
-  //console.log("String: "+str.replace(strKeyword, "Ha ha"));
-  console.log("Str1: "+str1.match(regexpKeyword));
-  console.log("Str2: "+str2.match(regexpKeyword));
-  console.log("Str3: "+str3.match(regexpKeyword));
   //所有在程式啟動時會在伺服器執行的程式碼都會放在這裡
-  //loadEngLexicon();
+  //loadEngLexicon(engLexicon);
 });
 
 //所有大腦(伺服器)的功能都會在這裡定義
