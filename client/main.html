@@ -9,19 +9,21 @@
 </head>
 
 <body>
-  <center>
-    <h1>This is my ELIZA!</h1>
-    <form>
-      <p>
-        <textarea id = "conversationBox" rows = "20" cols = "80" readOnly>{{allMsg}}</textarea>
-      </p>
-      <p>
-        <input type = "text" id = "myMsg" size = "80" placeholder = "Enter Your Message" />
-      </p>
-      <p>
-        <input type = "submit" id = "submitMsg" value = "Submit" />
-        <input type = "reset" id = "resetMsg" value = "Reset" />
-      </p>
-    </form>
-  </center>
+  <h1>This is my ELIZA!</h1>
+  <p>
+    This is a chatbot named <span class = "highlight">ELIZA</span>, who can talk to you and relieve your pressure.
+    I believe you'll fall in love with her.
+  </p>
+  <form>
+    <p>
+      <textarea id = "conversationBox" rows = "20" cols = "80" readOnly>{{allMsg}}</textarea>
+    </p>
+    <p>
+      <input type = "text" id = "myMsg" size = "80" placeholder = "Enter Your Message" />
+    </p>
+    <p>
+      <input type = "submit" id = "submitMsg" value = "Submit" />
+      <input type = "reset" id = "resetMsg" value = "Reset" />
+    </p>
+  </form>
 </body>

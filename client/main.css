@@ -1,1 +1,14 @@
 /* CSS declarations go here */
+body {
+  font-family: "Trebuchet MS", sans-serif;
+  text-align: center;
+  color: white;
+  background-color: black;
+}
+
+.highlight {
+  color: white;
+  background-color: #d36d23;
+  font-weight: bold;
+  font-style: italic;
+}
