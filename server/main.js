@@ -1,7 +1,7 @@
 /*
     ELIZA Chatbot Course Materials Created by CHEN, Tsung-Ying
     for the NTHU course "Basic Web Linguistic Application Development"
-    Last Updated on Nov 23, 2017
+    Last Updated on Dec 14, 2017
 */
 
 //把msgRecords的mongoDB資料庫連結到msgRecords這個伺服器端的Global Variable
@@ -78,12 +78,15 @@ var processMsg = function(msg) {  //請勿變更此行
     processResults = posSearch(msg, engLexicon);
   }
 
+  //第六步：processResults為空白字串代表還沒有適當回應
   if(processResults === "")
   {
+    //呼叫ELIZAweatherInfo.js中的weatherInfo功能，把ELIZA接收到的訊息msg傳過去
+    //看看是不是查詢天氣的訊息，再把回傳結果存到processResults中
     processResults = weatherInfo(msg);
   }
 
-  //第五步：processResults為空白字串代表還沒有適當回應
+  //第七步：processResults為空白字串代表還沒有適當回應
   if(processResults === "")
   {
     //呼叫ELIZAOtherResponses.js中的chooseRandomResponse，以獲得一個隨機的回應。
