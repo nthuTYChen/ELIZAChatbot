@@ -34,8 +34,17 @@ weatherInfo = function(msg) {
     {
       wtData = HTTP.get(wtInfoURL);
       wtData = wtData.data;
-      wtDataMsg = "It is "+wtData.weather[0].description+
-        ", and the current temperature is "+wtData.main.temp+"C.";
+      if(time === "present")
+      {
+        wtDataMsg = "It is "+wtData.weather[0].description+
+          ", and the current temperature is "+wtData.main.temp+"C.";
+      }
+      else
+      {
+        wtData = wtData.list[23];
+        wtDataMsg = "It is "+wtData.weather[0].description+
+          " tomorrow, and the expected temperature is "+wtData.main.temp+"C.";
+      }
       return wtDataMsg;
     }
     catch(error)
