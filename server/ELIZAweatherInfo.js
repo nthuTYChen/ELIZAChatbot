@@ -28,12 +28,31 @@ weatherInfo = function(msg) {
       wtInfoURL = "http://api.openweathermap.org/data/2.5/forecast?APPID="+
        APIKey+"&q="+targetCity+"&units=metric&cnt=24";
     }
+    var wtData, wtDataMsg;
 
-    HTTP.get(wtInfoURL, processWtData);
+    try
+    {
+      wtData = HTTP.get(wtInfoURL);
+      wtData = wtData.data;
+      wtDataMsg = "It is "+wtData.weather[0].description+
+        ", and the current temperature is "+wtData.main.temp+"C.";
+      return wtDataMsg;
+    }
+    catch(error)
+    {
+      if(error.response.data.cod === "404")
+      {
+        return "Sorry, I don't know this city.";
+      }
+      else
+      {
+        return "Sorry, but there's an internet connection issue.";
+      }
+    }
   }
 };
 
-var processWtData = function(error, result) {
+/*var processWtData = function(error, result) {
   var wtData;
   if(error !== null)
   {
@@ -55,4 +74,4 @@ var processWtData = function(error, result) {
     console.log("It's "+wtData.weather[0].description+
       ", and the current temperature is "+wtData.main.temp+"C.");
   }
-};
+};*/
