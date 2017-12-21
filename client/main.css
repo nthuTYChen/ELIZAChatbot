@@ -22,6 +22,35 @@ a:hover {
   font-style: italic;
 }
 
+.colorBox {
+  height: 50px;
+  width: 50px;
+}
+
+#colorBoxInner {
+  position: fixed;
+  z-index: 2;
+  background-color: red;
+  top: 60px;
+  left: 60px;
+}
+
+#colorBoxCenter {
+  position: fixed;
+  z-index: 0;
+  background-color: yellow;
+  top: 80px;
+  left: 80px;
+}
+
+#colorBoxOuter {
+  position: fixed;
+  z-index: 1;
+  background-color: purple;
+  top: 100px;
+  left: 100px;
+}
+
 #submitMsg, #resetMsg {
   background-color: black;
   color: white;
