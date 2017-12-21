@@ -9,26 +9,31 @@
 </head>
 
 <body>
-  <h1>This is my ELIZA!</h1>
-  <p id = "intro">
-    This is a chatbot named <span class = "highlight">ELIZA</span>, who can talk to you and relieve your pressure.
-    I believe you'll fall in love with her. ygjhgjh gjhg jhg jhgj gjgj gjgjhg jgjgj gjjgj gjhg jgjgjgjggjhhjgjg<br><br>
-    <a href="https://en.wikipedia.org/wiki/ELIZA" target = "_blank">ELIZA's Story on Wikipedia</a>
-  </p>
-  <form>
-    <p>
-      <textarea id = "conversationBox" readOnly>{{allMsg}}</textarea>
-    </p>
-    <p>
-      <input type = "text" id = "myMsg" size = "80" placeholder = "Enter Your Message" />
-    </p>
-    <p>
-      <input type = "submit" id = "submitMsg" value = "Submit" />
-      <input type = "reset" id = "resetMsg" value = "Reset" />
-    </p>
-  </form>
-  <div id = "outerDiv">
-    <div id = "innerDiv">
+  <div id = "titleSection">
+    ELIZA: A Chatbot
+  </div>
+  <div id = "contentSection">
+    <div id = "introSection">
+      This is a chatbot named <span class = "highlight">ELIZA</span>, who can talk to you and relieve your pressure.
+      I believe you'll fall in love with her. ygjhgjh gjhg jhg jhgj gjgj gjgjhg jgjgj gjjgj gjhg jgjgjgjggjhhjgjg<br><br>
+      <a href="https://en.wikipedia.org/wiki/ELIZA" target = "_blank">ELIZA's Story on Wikipedia</a>
+    </div>
+    <form>
+      <p>
+        <textarea id = "conversationBox" readOnly>{{allMsg}}</textarea>
+      </p>
+      <p>
+        <input type = "text" id = "myMsg" size = "80" placeholder = "Enter Your Message" />
+      </p>
+      <p>
+        <input type = "submit" id = "submitMsg" value = "Submit" />
+        <input type = "reset" id = "resetMsg" value = "Reset" />
+      </p>
+    </form>
+  </div>
+  <div id = "submittingMsg">
+    <div id = "submittingMsgContent">
+      Submitting your message...
     </div>
   </div>
 </body>
