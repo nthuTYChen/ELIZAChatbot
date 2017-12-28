@@ -1,0 +1,26 @@
+By thinking of atoms as letters and molecules as words, artificial intelligence software from IBM is now employing the same methods computers use to translate languages to predict outcomes of organic chemical reactions, which could speed the development of new drugs.
+
+In the past 50 years, scientists have tried to teach computers how chemistry works so that computers can help predict the results of organic chemical reactions. However, organic chemicals can be extraordinarily complex, and simulations of their behavior can prove time-consuming and inaccurate.
+Instead, researchers at IBM took the kind of AI program normally used to translate languages and applied it toward organic chemistry. "Instead of translating English into German or Chinese, we had the same artificial intelligence technology look at hundreds of thousands or millions of chemical reactions and had it learn the basic structure of the 'language' of organic chemistry, and then had it try to predict the outcomes of possible organic chemical reactions," says study co-author Teodoro Laino at IBM Research in Zurich.
+
+
+
+"We want to help chemists design new synthesis routes for organic compounds," Laino says. Synthesizing pharmaceuticals and other complex organic compounds is often a difficult task, "maybe requiring 30 or 40 steps," he explains. "There's a huge effort in the commercial sector to find shortcuts to skip a couple of steps, with the benefit of decreasing time and increasing yields."
+
+The new AI program is an artificial neural network, in which components dubbed neurons are fed data and cooperate to solve a problem, such as translating a sentence. The neural network then repeatedly adjusts the connections between its neurons and sees if these new patterns of connections is better at solving the problem. Over time, the neural net discovers which patterns are best at computing solutions, mimicking the process of learning in the human brain. "It reasons and learns by analogy, which is very similar to what top pro organic chemists do in real life," Laino says.
+
+Just as a child who grows up speaking a language may not know the rules of how, say, its declensions and conjugations work but still knows how to speak it, this new AI software never learns the rules of how organic chemistry works but can still make predictions about the outcomes of chemical reactions. In cases where the AI thinks a chemical reaction might have more than one outcome, it will provide multiple solutions ranked according to likelihood.
+
+"It could achieve accuracies of up to 80 percent," says study co-author Philippe Schwaller at IBM Research in Zurich.
+
+So far, the largest molecules the AI has dealt with had about 150 atoms, Schwaller says. "There's no theoretical reason we can't work with longer molecules if needed," says study co-author Théophile Gaudin at IBM Research in Zurich. 
+
+In the future, "we plan to make this available to everyone through a cloud service," Gaudin says. "We also want to reach accuracies of 90 percent or even above. One way to do that is instead of having just a general organic chemistry model, we have more specialized models focused on specific classes of organic chemical reactions."
+
+Moreover, in the future the researchers may include factors such as temperature, solvents, and pH into the chemical reactions the AI learns. However, this will require double-checking the accuracy of all this extra data, Laino says.
+
+Furthermore, "we also want to conduct social experiments where we find experts in organic chemistry and see how our model competes against them," Gaudin says.
+
+Since the AI is not perfect, organic chemists will still need to follow up on its work. "We didn't create this tool to replace organic chemists, but to help them," Laino says. 
+
+The scientists detailed their findings Dec. 4 at the Neural Information Processing Systems conference in Long Beach, Calif.

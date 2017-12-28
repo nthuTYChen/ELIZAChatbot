@@ -6,11 +6,13 @@
 
 //把msgRecords的mongoDB資料庫連結到msgRecords這個伺服器端的Global Variable
 msgRecords = new Mongo.Collection("msgRecords"); //請勿變更此行
+nGramDB = new Mongo.Collection("nGramDB");
 var engLexicon = new Mongo.Collection("engLexicon");
 
 Meteor.startup(function(){
   //所有在程式啟動時會在伺服器執行的程式碼都會放在這裡
   //loadEngLexicon(engLexicon);
+  //loadTrainingData();
 });
 
 //所有大腦(伺服器)的功能都會在這裡定義
