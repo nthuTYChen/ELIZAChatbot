@@ -1,17 +1,20 @@
 /*
     ELIZA Chatbot Course Materials Created by CHEN, Tsung-Ying
     for the NTHU course "Basic Web Linguistic Application Development"
-    Last Updated on Dec 14, 2017
+    Last Updated on Dec 28, 2017
 */
 
 //把msgRecords的mongoDB資料庫連結到msgRecords這個伺服器端的Global Variable
-msgRecords = new Mongo.Collection("msgRecords"); //請勿變更此行
+msgRecords = new Mongo.Collection("msgRecords");
+//把nGramDB的mongoDB資料庫連結到nGramDB這個伺服器端的Global Variable
 nGramDB = new Mongo.Collection("nGramDB");
 var engLexicon = new Mongo.Collection("engLexicon");
 
 Meteor.startup(function(){
   //所有在程式啟動時會在伺服器執行的程式碼都會放在這裡
+  //ELIZALoadLexicon.js中把英語字彙列表讀到engLexicon資料庫的loadEngLexicon功能
   //loadEngLexicon(engLexicon);
+  //ELIZAnGramTrainer.js中把AI文章中的NGram讀到NGramDB中的功能
   //loadTrainingData();
 });
 
