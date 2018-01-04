@@ -4,6 +4,44 @@
     Last Updated on Dec 28, 2017
 */
 
+produceAIArticle = function(msg) {
+  var AIMsgRegExp = /(what|how|tell me).* AI/ig;
+  if(msg.match(AIMsgRegExp) !== null)
+  {
+    return generateRandomAIArticle();
+  }
+  else
+  {
+    console.log("Not Matched!");
+  }
+  return "";
+};
+
+var generateRandomAIArticle = function() {
+  var randomAIArticle = "", nGramNum = 300;
+  var allInitialTrigrams = nGramDB.find({trigram1: "#"}).fetch();
+
+  var initialTrigram = randomNGramSelection(allInitialTrigrams);
+};
+
+var randomNGramSelection = function(NGrams) {
+  var totalRawFreq = 0;
+  for(NGram=0 ; NGram<NGrams.length ; NGram++)
+  {
+    totalRawFreq = totalRawFreq+NGrams[NGram].rawFreq;
+  }
+  var randomNum = Math.random()*totalRawFreq;
+  totalRawFreq = 0;
+  for(newNGram=0 ; newNGram<NGrams.length ; newNGram++)
+  {
+    totalRawFreq = totalRawFreq+NGrams[newNGram].rawFreq;
+    if(totalRawFreq > randomNum)
+    {
+      return NGrams[newNGram];
+    }
+  }
+};
+
 //讀取NGram的功能
 loadTrainingData = function() {
   //先移除舊的nGramDB資料

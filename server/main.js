@@ -91,6 +91,11 @@ var processMsg = function(msg) {  //請勿變更此行
     processResults = weatherInfo(msg);
   }
 
+  if(processResults === "")
+  {
+    processResults = produceAIArticle(msg);
+  }
+
   //第七步：processResults為空白字串代表還沒有適當回應
   if(processResults === "")
   {
