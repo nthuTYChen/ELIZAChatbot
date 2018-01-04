@@ -1,95 +1,177 @@
 /*
     ELIZA Chatbot Course Materials Created by CHEN, Tsung-Ying
     for the NTHU course "Basic Web Linguistic Application Development"
-    Last Updated on Dec 28, 2017
+    Last Updated on Jan 4, 2018
 */
 
+//自動產生AI相關文章的功能，接收main.js傳過來ELIZA收到的訊息msg
 produceAIArticle = function(msg) {
+  //建立一個Regular Expression來判斷收到的訊息是不是符合下面類似的句型：
+  //What is AI? How do you think about AI? Tell me something about AI.
   var AIMsgRegExp = /(what|how|tell me).* AI/ig;
+  //如果msg內容符合上面的Regular Expression，msg.match(AIMsgRegExp)的結果
+  //就不會是null
   if(msg.match(AIMsgRegExp) !== null)
   {
+    //符合Regular Expression的情況，呼叫generateRandomAIArticle功能，以產生一篇
+    //AI相關的文章，並且回傳這個結果到main.js
     return generateRandomAIArticle();
   }
+  //不符合Regular Expression的情況下，回傳空字串到main.js
   else
   {
     return "";
   }
 };
 
+//自動產生AI相關文章
 var generateRandomAIArticle = function() {
+  //設定randomAIArticle變數儲存自動產生文章的內容，以及nGramNum變數設定
+  //要用幾個NGram產生AI相關的文章
   var randomAIArticle = "", nGramNum = 100;
+  
+  //先從nGramDB資料庫找出所有以文章標記開頭的Trigrams，如：# This is，# It is等
+  //把所有的結果用fetch()功能轉成陣列後儲存到allInitialTrigrams變數
   var allInitialTrigrams = nGramDB.find({trigram1: "#"}).fetch();
 
+  //把allInitialTrigrams傳送到randomNGramSelection功能，隨機選擇一個起始的Trigram
+  //並且把這個Trigram儲存到initialTrigram變數裡
   var initialTrigram = randomNGramSelection(allInitialTrigrams);
+  
+  //把initialTrigram中的個別monogram加到randomAIArticle中，並且用空格分隔每個
+  //各別的monogram
   randomAIArticle =
     initialTrigram.trigram1+" "+initialTrigram.trigram2+" "+
     initialTrigram.trigram3+" ";
 
+  //把initialTrigram的後面兩個monogram做為新的NGram的前兩個monogram。例：
+  //如果initialTrigram是# This is，那下一步就是要找This is開頭的Trigram，或是
+  //is開頭的Bigram。所以在這邊我們把initialTrigram的trigram2存到newNGram1變數中，
+  //然後把initialTrigram的trigram3存到newNGram2變數中
   var newNGram1 = initialTrigram.trigram2;
   var newNGram2 = initialTrigram.trigram3;
 
+  //建立一個selectedNewNGram變數儲存下一個NGram的資訊
   var selectedNewNGram;
 
+  //執行for迴圈，按照nGramNum設定的數目決定要用幾個NGram「接龍」產生這篇文章
   for(wd=1 ; wd<=nGramNum ; wd++)
   {
+    //首先先尋找可以接下去的Trigram。假設initialTrigram是# This is，那就希望可以找到
+    //This is開頭的Trigram。所以新的Trigram的搜尋條件使用trigram1符合newNGram1內容
+    //trigram2符合newNGram2的內容，再用fetch()把搜尋結果轉換成陣列存到trigramMatches
     var trigramMatches =
       nGramDB.find({trigram1: newNGram1, trigram2: newNGram2}).fetch();
+    //如果有找到符合條件的trigram，那陣列的長度會大於0
     if(trigramMatches.length > 0)
     {
+      //把trigramMatches傳到randomNGramSelection功能裡，隨機選擇一個trigram，再把
+      //結果存到selectedNewNGram裡
       selectedNewNGram = randomNGramSelection(trigramMatches);
+      //把新的Trigram的最後一個monogram (trigram3)加上一個空格，加到目前的
+      //randomAIArticle，再取代目前的randomAIArticle
       randomAIArticle = randomAIArticle+selectedNewNGram.trigram3+" ";
+      //把newNGram2「往前移」存入newNGram1，再把新的Trigram的trigram3「往前移」
+      //存入newNGram2，更新下一次NGram搜尋的起始關鍵字
       newNGram1 = newNGram2;
       newNGram2 = selectedNewNGram.trigram3;
     }
+    //如果沒有找到符合條件的trigram，那就退一步(back-off)，搜尋bigram
     else
     {
+      //使用newNGram2，也是目前randomAIArticle的最後一個字，做為bigram1的內容，
+      //搜尋所有符合以newNGram2開頭的bigram，並用fetch()轉換成陣列存到bigramMatches中
       var bigramMatches = nGramDB.find({bigram1: newNGram2}).fetch();
+      //一樣，有搜尋結果的話bigramMatches陣列長度會大於零
       if(bigramMatches.length > 0)
       {
+        //把所有找到的bigram放到randomNGramSelection功能中，隨機選擇一個bigram
+        //存入selectedNewNGram
         selectedNewNGram = randomNGramSelection(bigramMatches);
+        //把新的bigram的bigram2這個monogram加上一個空格後，附加到目前的randomAIArticle中，
+        //再取代原本的randomAIArticle
         randomAIArticle = randomAIArticle+selectedNewNGram.bigram2+" ";
+        //一樣把newNGram2「往前移」存入newNGram1，然後目前的bigram的bigram2「往前移」
+        //存入newNGram2
         newNGram1 = newNGram2;
         newNGram2 = selectedNewNGram.bigram2;
       }
+      //如果連符合條件的bigram都找不到，再退一步，只找monogram
       else
       {
+        //從資料庫把所有的monogram找出來(條件是type為monogram的資料)，再用fetch()
+        //轉換為陣列
         var monogramMatches = nGramDB.find({type: "monogram"}).fetch();
+        //因為一定有monogram，所以不用再檢查monogramMatches的陣列長度是否大於0
+        //把所有的monogram放入randomNGramSelection功能中，隨機選擇一個monogram後
+        //存入selectedNewNGram
         selectedNewNGram = randomNGramSelection(monogramMatches);
+        //把目前的monogram附加到原本的randomAIArticle上，再取代原本的randomAIArticle
         randomAIArticle = randomAIArticle+selectedNewNGram.monogram+" ";
+        //一樣把newNGram2「往前移」存入newNGram1，再把目前的monogram往前移，存入
+        //newNGram2
         newNGram1 = newNGram2;
         newNGram2 = selectedNewNGram.monogram;
       }
     }
   }
 
+  //結束for迴圈後，準備收尾，先試著找看看是否有連結目前文章最後一個字newNGram2以及
+  //文章符號#的trigram。因此從nGramDB中搜尋trigram1是newNGram2，以及trigram3是
+  //文章符號#的trigram。
   var trigramMatches = nGramDB.find({trigram1: newNGram2, trigram3: "#"});
+  //一樣，有搜尋結果的話trigramMatches陣列長度會大於零
   if(trigramMatches.length > 0)
   {
+    //把trigramMatches傳到randomNGramSelection功能裡，隨機選擇一個trigram，再把
+    //結果存到selectedNewNGram裡
     selectedNewNGram = randomNGramSelection(trigramMatches);
+    //把選擇的trigram中的trigram2加上空格以及文章符號#，附加到原本的randomAIArticle
+    //上，再取代原本的randomAIArticle
     randomAIArticle = randomAIArticle+selectedNewNGram.trigram2+" #";
   }
+  //如果沒找到符合的trigram，就算了。把randomAIArticle加上空格及文章結尾符號就結束
   else
   {
     randomAIArticle = randomAIArticle+" #";
   }
-
+  //回傳整篇文章到produceAIArticle功能中
   return randomAIArticle;
 };
 
+//隨機選擇NGram的功能，接收generateRandomAIArticle功能中傳過來的NGrams陣列
 var randomNGramSelection = function(NGrams) {
+  //設定累加的NGram頻率變數，以NGram的出現頻率決定NGram被選擇的機率
   var totalRawFreq = 0;
+  //先利用for迴圈把NGrams中所有的rawFreq累加至totalRawFreq變數中
+  //比如說ABC.rawFreq = 381, ABD.rawFreq = 102, ABE.rawFreq = 15
+  //那累加起來的totalRawFreq就會是498
   for(NGram=0 ; NGram<NGrams.length ; NGram++)
   {
     totalRawFreq = totalRawFreq+NGrams[NGram].rawFreq;
   }
+  //產生一個0至totalRawFreq之間的變數，存到randomNum裡
+  //如果是上面的例子，就是0到498之間(不含498)的數字
   var randomNum = Math.random()*totalRawFreq;
+  
+  //把totalRawFreq歸零，因為我們還要利用累加rawFreq的方式，讓totalRawFreq大於
+  //randomNum的時候選擇目前的NGram回傳
   totalRawFreq = 0;
+  
+  //一樣執行迴圈，開始重新累加所有NGram的rawFreq到totalRawFreq中
   for(newNGram=0 ; newNGram<NGrams.length ; newNGram++)
   {
     totalRawFreq = totalRawFreq+NGrams[newNGram].rawFreq;
+    //每次累加完畢，就檢查目前的totalRawFreq是否大於randomNum
     if(totalRawFreq > randomNum)
     {
+      //如果大於randomNum，就選擇回傳目前的NGram，然後停止迴圈的執行
       return NGrams[newNGram];
+      //以上面的例子來說，因為ABC.rawFreq的數字很大，所以有很大的機率累加完ABC.rawFreq
+      //就totalRawFreq就大於randomNum，所以回傳ABC的機率最高。而會有比較低的
+      //機率會累加完ABD.rawFreq之後，totalRawFreq才會比randomNum大。因此回傳ABD的
+      //機率較低。而因為ABE.rawFreq最小，所以會有很低的機率累加完ABE.rawFreq之後，
+      //totalRawFreq才會比randomNum大。因此，回傳ABE的機會最小(但不是沒有)。
     }
   }
 };

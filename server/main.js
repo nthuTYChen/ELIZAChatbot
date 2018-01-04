@@ -1,7 +1,7 @@
 /*
     ELIZA Chatbot Course Materials Created by CHEN, Tsung-Ying
     for the NTHU course "Basic Web Linguistic Application Development"
-    Last Updated on Dec 28, 2017
+    Last Updated on Jan 4, 2018
 */
 
 //把msgRecords的mongoDB資料庫連結到msgRecords這個伺服器端的Global Variable
@@ -13,8 +13,11 @@ var engLexicon = new Mongo.Collection("engLexicon");
 Meteor.startup(function(){
   //所有在程式啟動時會在伺服器執行的程式碼都會放在這裡
   //ELIZALoadLexicon.js中把英語字彙列表讀到engLexicon資料庫的loadEngLexicon功能
+  //在每個新的App裡只需要執行一次，執行完就可以用註解標記標起來
   //loadEngLexicon(engLexicon);
+  
   //ELIZAnGramTrainer.js中把AI文章中的NGram讀到NGramDB中的功能
+  //在每個新的App裡只需要執行一次，執行完就可以用註解標記標起來
   //loadTrainingData();
 });
 
@@ -91,12 +94,15 @@ var processMsg = function(msg) {  //請勿變更此行
     processResults = weatherInfo(msg);
   }
 
+  //第七步：processResults為空白字串代表還沒有適當回應
   if(processResults === "")
   {
+    //呼叫ELIZAnGramTrainer.js中的produceAIArticle功能，把ELIZA接收到的訊息msg
+    //傳過去，看是不是詢問AI相關資訊的訊息，再把回傳結果存到processResults中
     processResults = produceAIArticle(msg);
   }
 
-  //第七步：processResults為空白字串代表還沒有適當回應
+  //第八步：processResults為空白字串代表還沒有適當回應
   if(processResults === "")
   {
     //呼叫ELIZAOtherResponses.js中的chooseRandomResponse，以獲得一個隨機的回應。
