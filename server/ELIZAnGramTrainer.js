@@ -12,16 +12,68 @@ produceAIArticle = function(msg) {
   }
   else
   {
-    console.log("Not Matched!");
+    return "";
   }
-  return "";
 };
 
 var generateRandomAIArticle = function() {
-  var randomAIArticle = "", nGramNum = 300;
+  var randomAIArticle = "", nGramNum = 100;
   var allInitialTrigrams = nGramDB.find({trigram1: "#"}).fetch();
 
   var initialTrigram = randomNGramSelection(allInitialTrigrams);
+  randomAIArticle =
+    initialTrigram.trigram1+" "+initialTrigram.trigram2+" "+
+    initialTrigram.trigram3+" ";
+
+  var newNGram1 = initialTrigram.trigram2;
+  var newNGram2 = initialTrigram.trigram3;
+
+  var selectedNewNGram;
+
+  for(wd=1 ; wd<=nGramNum ; wd++)
+  {
+    var trigramMatches =
+      nGramDB.find({trigram1: newNGram1, trigram2: newNGram2}).fetch();
+    if(trigramMatches.length > 0)
+    {
+      selectedNewNGram = randomNGramSelection(trigramMatches);
+      randomAIArticle = randomAIArticle+selectedNewNGram.trigram3+" ";
+      newNGram1 = newNGram2;
+      newNGram2 = selectedNewNGram.trigram3;
+    }
+    else
+    {
+      var bigramMatches = nGramDB.find({bigram1: newNGram2}).fetch();
+      if(bigramMatches.length > 0)
+      {
+        selectedNewNGram = randomNGramSelection(bigramMatches);
+        randomAIArticle = randomAIArticle+selectedNewNGram.bigram2+" ";
+        newNGram1 = newNGram2;
+        newNGram2 = selectedNewNGram.bigram2;
+      }
+      else
+      {
+        var monogramMatches = nGramDB.find({type: "monogram"}).fetch();
+        selectedNewNGram = randomNGramSelection(monogramMatches);
+        randomAIArticle = randomAIArticle+selectedNewNGram.monogram+" ";
+        newNGram1 = newNGram2;
+        newNGram2 = selectedNewNGram.monogram;
+      }
+    }
+  }
+
+  var trigramMatches = nGramDB.find({trigram1: newNGram2, trigram3: "#"});
+  if(trigramMatches.length > 0)
+  {
+    selectedNewNGram = randomNGramSelection(trigramMatches);
+    randomAIArticle = randomAIArticle+selectedNewNGram.trigram2+" #";
+  }
+  else
+  {
+    randomAIArticle = randomAIArticle+" #";
+  }
+
+  return randomAIArticle;
 };
 
 var randomNGramSelection = function(NGrams) {
