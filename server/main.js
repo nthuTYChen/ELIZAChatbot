@@ -1,6 +1,7 @@
 /*
     ELIZA Meteor Template Created by CHEN, Tsung-Ying
     for the NTHU course "Basic Web Linguistic Application Development"
+<<<<<<< HEAD
     Last Updated on Nov 1, 2017
 */
 
@@ -9,6 +10,26 @@ msgRecords = new Mongo.Collection("msgRecords"); //請勿變更此行
 
 Meteor.startup(function(){
   //所有在程式啟動時會在伺服器執行的程式碼都會放在這裡
+=======
+    Last Updated on Jan 4, 2018
+*/
+
+//把msgRecords的mongoDB資料庫連結到msgRecords這個伺服器端的Global Variable
+msgRecords = new Mongo.Collection("msgRecords");
+//把nGramDB的mongoDB資料庫連結到nGramDB這個伺服器端的Global Variable
+nGramDB = new Mongo.Collection("nGramDB");
+var engLexicon = new Mongo.Collection("engLexicon");
+
+Meteor.startup(function(){
+  //所有在程式啟動時會在伺服器執行的程式碼都會放在這裡
+  //ELIZALoadLexicon.js中把英語字彙列表讀到engLexicon資料庫的loadEngLexicon功能
+  //在每個新的App裡只需要執行一次，執行完就可以用註解標記標起來
+  //loadEngLexicon(engLexicon);
+  
+  //ELIZAnGramTrainer.js中把AI文章中的NGram讀到NGramDB中的功能
+  //在每個新的App裡只需要執行一次，執行完就可以用註解標記標起來
+  //loadTrainingData();
+>>>>>>> 89293b5c3e81077714b02593b7f194712c526ad9
 });
 
 //所有大腦(伺服器)的功能都會在這裡定義
@@ -44,6 +65,7 @@ Meteor.methods({
 var processMsg = function(msg) {  //請勿變更此行
   //建立一個processResults變數儲存訊息運算處理的結果
   var processResults = "";  //請勿變更此行
+<<<<<<< HEAD
   //「以下」是你可以編輯的部份，請將你的ELIZA處理訊息的核心程式碼放在以下的段落內
 
   //目前完全沒有訊息處理。所以processResults一定是空字串
@@ -51,6 +73,63 @@ var processMsg = function(msg) {  //請勿變更此行
   if(processResults === "")
   {
     processResults = "Hello world!";
+=======
+  //建立儲存情緒類別和每個字的詞類的變數
+  var emotion = "", msgWordsPOS = [];
+  //「以下」是你可以編輯的部份，請將你的ELIZA處理訊息的核心程式碼放在以下的段落內
+
+  //第一步：先把訊息msg傳送至ELIZAEmotionChecker.js檢查訊息的情緒。回傳的情緒類別
+  //存入emotion變數
+  emotion = emotionChecker(msg);
+
+  //第二步：把訊息跟英語詞彙資料庫傳送到ELIZAPOSIdentifier.js中的posIdentifier
+  //功能，查詢每個字的詞類。詞類陣列回傳後存入msgWordsPOS變數。
+  msgWordsPOS = posIdentifier(msg, engLexicon);
+
+  //第三步：把訊息傳入ELIZASocialSkill.js裡的socialResponse功能是否是打招呼或說再見
+  //處理結果存入processResults
+  processResults = socialResponse(msg);
+
+  //第四步：processResults為空白字串代表還沒有適當回應
+  if(processResults === "")
+  {
+    //呼叫ELIZAWordSearch.js中的wordSearch功能，看是不是詢問字彙的問題，並且把收到
+    //的訊息msg跟engLexicon傳過去。wordSearch回傳的查詢結果儲存至processResults
+    processResults = wordSearch(msg, engLexicon);
+  }
+
+  //第五步：processResults為空白字串代表還沒有適當回應
+  if(processResults === "")
+  {
+    //呼叫ELIZAPOSSearch.js中的posSearch功能，看是不是詢問詞類的問題，並且把收到的
+    //訊息msg跟engLexicon傳過去。posSearch回傳的結果儲存至processResults
+    processResults = posSearch(msg, engLexicon);
+  }
+
+  //第六步：processResults為空白字串代表還沒有適當回應
+  if(processResults === "")
+  {
+    //呼叫ELIZAweatherInfo.js中的weatherInfo功能，把ELIZA接收到的訊息msg傳過去
+    //看看是不是查詢天氣的訊息，再把回傳結果存到processResults中
+    processResults = weatherInfo(msg);
+  }
+
+  //第七步：processResults為空白字串代表還沒有適當回應
+  if(processResults === "")
+  {
+    //呼叫ELIZAnGramTrainer.js中的produceAIArticle功能，把ELIZA接收到的訊息msg
+    //傳過去，看是不是詢問AI相關資訊的訊息，再把回傳結果存到processResults中
+    processResults = produceAIArticle(msg);
+  }
+
+  //第八步：processResults為空白字串代表還沒有適當回應
+  if(processResults === "")
+  {
+    //呼叫ELIZAOtherResponses.js中的chooseRandomResponse，以獲得一個隨機的回應。
+    //傳入訊息msg、詞類查詢結果msgWordsPOS、情緒類別emotion、以及英語字彙資料庫
+    //engLexicon
+    processResults = chooseRandomResponse(msg, msgWordsPOS, emotion, engLexicon);
+>>>>>>> 89293b5c3e81077714b02593b7f194712c526ad9
   }
 
   //「以上」是你可以編輯的部份，請將你的ELIZA處理訊息的核心程式碼放在以上的段落內

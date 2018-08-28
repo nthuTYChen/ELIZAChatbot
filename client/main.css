@@ -1,1 +1,130 @@
-/* CSS declarations go here */
+/*
+    ELIZA Chatbot Course Materials Created by CHEN, Tsung-Ying
+    for the NTHU course "Basic Web Linguistic Application Development"
+    Last Updated on Dec 21, 2017
+*/
+
+/*設定body標籤的css樣式*/
+body {
+  margin: 0;  /*將邊界設定為0，消除瀏覽器預設的網頁邊界*/
+  font-family: "Trebuchet MS", sans-serif; /*設定字型*/
+  text-align: center; /*設定文字排版*/
+  background-color: #FFFFFF; /*設定背景顏色*/
+  color: #000000; /*設定文字顏色*/
+}
+
+/*設定超連結標籤a的css樣式*/
+a {
+  color: #009dff;
+  text-decoration: none; /*不要文字的裝飾，超連結就不會有底線*/
+}
+
+/*設定滑鼠移到超連結標籤上的css設定*/
+a:hover {
+  color: #8cd3ff; /*改變字體顏色*/
+}
+
+/*設定class為highlight的html標籤的css樣式*/
+.highlight {
+  color: white;
+  background-color: #d36d23;
+  font-weight: bold;  /*設定字體為粗體*/
+  font-style: italic; /*設定用體為斜體*/
+}
+
+/*設定id是titleSection的html標籤css樣式*/
+#titleSection {
+  position: fixed; /*設定位置固定在視窗範圍內的位置*/
+  top: 0; /*離視窗範圍上邊界的距離是0*/
+  height: 64px; /*設定高度像素*/
+  width: 100%; /*設定寬度為100%的視窗範圍寬度*/
+  background-color: #000066;
+  color: #FFFFFF;
+  font-family: "Courier New", sans-serif;
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 64px; /*設定行高與高度一致，文字就會垂直置中*/
+}
+
+/*設定id是contentSection的html標籤css樣式*/
+#contentSection {
+  margin: 64px 0 0 0; /*設定邊界的上、左、下、右的距離*/
+  padding: 20px; /*設定四個方向所有縮排的距離*/
+  background-color: #FFFFFF;
+  color: #000000;
+}
+
+/*設定id是introSection的html標籤css樣式*/
+#introSection {
+  display: inline-block; /*呈現方式設定為行列中的區塊，這樣才適用text-align的文字排版*/
+  width: 600px;
+  padding: 5px;
+  border: 2px dotted grey; /*設定邊界的粗細、樣式、顏色*/
+  border-radius: 10px; /*設定四個角落的圓弧轉折的幅度*/
+  background-color: #000066;
+  color: #FFFFFF;
+  font-family: "Trebuchet MS", sans-serif;
+  font-size: 16px;
+  text-align: left;
+}
+
+/*設定id是submitMsg與resetMsg這兩個按鈕的css樣式*/
+#submitMsg, #resetMsg {
+  background-color: black;
+  color: white;
+  font-family: sans-serif;
+  font-size: 14px;
+  padding: 4px;
+  border-radius: 5px;
+  cursor: pointer; /*設定滑鼠經過這兩個按鈕時會變成手指頭的游標*/
+}
+
+/*設定滑鼠移到兩個按鈕上的css樣式，主要是文字跟背景顏色的反轉*/
+#submitMsg:hover, #resetMsg:hover {
+  background-color: white;
+  color: black;
+  font-weight: bold;
+}
+
+/*設定id是conversationBox的html標籤css樣式*/
+#conversationBox {
+  height: 200px;
+  width: 600px;
+  padding: 5px;
+  border: none; /*設定沒有邊框*/
+  background-color: #000000;
+  color: #FFFFFF;
+  font-family: "Courier New", sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/*設定id是myMsg的html標籤css樣式*/
+#myMsg {
+  height: 18px;
+  width: 600px;
+  padding: 2px;
+  border: 1px solid grey;
+  font-family: "Courier New", sans-serif;
+  font-size: 14px;
+}
+
+/*設定id是submittingMsg的html標籤樣式*/
+#submittingMsg {
+  position: fixed; /*是置中的外層div，將新位置設定為固定在視窗範圍內*/
+  top: 50%; /*設定離視窗範圍上緣50%的視窗範圍高度*/
+  left: 50%; /*設定離視窗範圍左緣50%的視窗範圍寬度*/
+  display: none; /*設定為不呈現*/
+}
+
+/*設定id是submittingMsgContent的html標籤樣式*/
+#submittingMsgContent {
+  position: relative; /*是置中的內層div，將新位置相對於原始位置做設定*/
+  transform: translate(-50%, -50%); /*往左移動submittingMsgContent一半的寬度，往上移動submittingMsgContent一半的高度*/
+  padding: 2px;
+  background-color: #800000;
+  color: #FFFFFF;
+  text-align: center;
+  font-family: "Trebuchet MS", sans-serif;
+  font-size: 24px;
+}

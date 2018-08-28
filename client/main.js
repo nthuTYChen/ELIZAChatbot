@@ -1,7 +1,11 @@
 /*
     ELIZA Meteor Template Created by CHEN, Tsung-Ying
     for the NTHU course "Basic Web Linguistic Application Development"
+<<<<<<< HEAD
     Last Updated on Nov 1, 2017
+=======
+    Last Updated on Dec 21, 2017
+>>>>>>> 89293b5c3e81077714b02593b7f194712c526ad9
 */
 
 //把msgRecords的mongoDB資料庫連結到msgRecords
@@ -50,6 +54,13 @@ Template.body.events({
     //event.preventDefault()代表這個事件我們不要執行預設的HTML功能，避免每次按
     //Submit的按鈕都會重新讀取網頁
     event.preventDefault();
+
+    //把submittingMsg這個div的display css特性設定為block，讓submittingMsg出現
+    document.getElementById("submittingMsg").style.display = "block";
+
+    //2秒(2000毫秒)後執行hideMsg功能，隱藏submittingMsg這個div
+    setTimeout(hideMsg, 2000);
+    
     //建立一個變數myMsg儲存輸入在網頁中id=myMsg物件的內容(value)
     var myMsg = document.getElementById("myMsg").value;
     //把網頁中id=myMsg的內容設定為一個空的字串
@@ -67,3 +78,9 @@ Template.body.events({
     Meteor.call("resetELIZA");
   }
 });
+
+//隱藏submittingMsg div的自訂功能hideMsg
+var hideMsg = function() {
+  //將submittingMsg div的css display特性設定為none，隱藏submittingMsg
+  document.getElementById("submittingMsg").style.display = "none";
+};

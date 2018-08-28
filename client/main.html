@@ -1,7 +1,11 @@
 <!--
     ELIZA Meteor Template Created by CHEN, Tsung-Ying
     for the NTHU course "Basic Web Linguistic Application Development"
+<<<<<<< HEAD
     Last Updated on Aug 4, 2017
+=======
+    Last Updated on Dec 21, 2017
+>>>>>>> 89293b5c3e81077714b02593b7f194712c526ad9
 -->
 
 <head>
@@ -9,11 +13,21 @@
 </head>
 
 <body>
-  <center>
-    <h1>This is my ELIZA!</h1>
+  <!-- 標題列 -->
+  <div id = "titleSection">
+    ELIZA: A Chatbot
+  </div>
+  <!-- 內容部份 -->
+  <div id = "contentSection">
+    <!-- 簡介區塊 -->
+    <div id = "introSection">
+      This is a chatbot named <span class = "highlight">ELIZA</span>, who can talk to you and relieve your pressure.
+      I believe you'll fall in love with her. ygjhgjh gjhg jhg jhgj gjgj gjgjhg jgjgj gjjgj gjhg jgjgjgjggjhhjgjg<br><br>
+      <a href="https://en.wikipedia.org/wiki/ELIZA" target = "_blank">ELIZA's Story on Wikipedia</a>
+    </div>
     <form>
       <p>
-        <textarea id = "conversationBox" rows = "20" cols = "80" readOnly>{{allMsg}}</textarea>
+        <textarea id = "conversationBox" readOnly>{{allMsg}}</textarea>
       </p>
       <p>
         <input type = "text" id = "myMsg" size = "80" placeholder = "Enter Your Message" />
@@ -23,5 +37,11 @@
         <input type = "reset" id = "resetMsg" value = "Reset" />
       </p>
     </form>
-  </center>
+  </div>
+  <!-- 送出訊息的提示區塊 -->
+  <div id = "submittingMsg">
+    <div id = "submittingMsgContent">
+      Submitting your message...
+    </div>
+  </div>
 </body>
