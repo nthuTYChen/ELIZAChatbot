@@ -1,7 +1,7 @@
 /*
-    ELIZA Chatbot Course Materials Created by CHEN, Tsung-Ying
+    ELIZA Meteor Template Created by CHEN, Tsung-Ying
     for the NTHU course "Basic Web Linguistic Application Development"
-    Last Updated on Nov 9, 2017
+    Last Updated on Nov 1, 2017
 */
 
 //把msgRecords的mongoDB資料庫連結到msgRecords
